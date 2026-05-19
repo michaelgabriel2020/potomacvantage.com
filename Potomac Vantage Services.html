@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Potomac Vantage Services</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #1B3A52;
+    --steel: #2E6E8E;
+    --steel-light: #7BAAC4;
+    --ground: #F2F0EB;
+    --ground-dark: #E4E1D8;
+    --text-primary: #1B3A52;
+    --text-secondary: #4A6A7A;
+    --text-muted: #8AA0AC;
+    --white: #FDFCF9;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--ground);
+    color: var(--text-primary);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.25rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(242, 240, 235, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 0.5px solid rgba(27, 58, 82, 0.12);
+  }
+
+  .wordmark {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.05;
+    gap: 1px;
+  }
+
+  .wordmark span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--navy);
+    text-transform: uppercase;
+  }
+
+  .wordmark span.services {
+    color: var(--steel);
+  }
+
+  nav {
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  nav a {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--navy); }
+
+  nav .contact-btn {
+    background: var(--navy);
+    color: var(--ground) !important;
+    padding: 0.5rem 1.25rem;
+    border-radius: 2px;
+    letter-spacing: 0.1em;
+  }
+
+  nav .contact-btn:hover { background: var(--steel); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 3rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: var(--navy);
+    z-index: 0;
+  }
+
+  /* Subtle water-like pattern */
+  .hero-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(
+        168deg,
+        transparent,
+        transparent 60px,
+        rgba(46, 110, 142, 0.08) 60px,
+        rgba(46, 110, 142, 0.08) 61px
+      ),
+      repeating-linear-gradient(
+        172deg,
+        transparent,
+        transparent 90px,
+        rgba(123, 170, 196, 0.06) 90px,
+        rgba(123, 170, 196, 0.06) 91px
+      );
+  }
+
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 220px;
+    background: linear-gradient(to bottom, transparent, var(--navy));
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--steel-light);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 6vw, 72px);
+    font-weight: 500;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 1.75rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero-desc {
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(253, 252, 249, 0.7);
+    max-width: 520px;
+    line-height: 1.75;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  /* ── SECTION BASE ── */
+  section {
+    padding: 6rem 3rem;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--steel);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 3.5vw, 42px);
+    font-weight: 500;
+    color: var(--navy);
+    line-height: 1.2;
+    margin-bottom: 2rem;
+  }
+
+  /* ── ABOUT ── */
+  .about {
+    background: var(--white);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .about-body {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.85;
+  }
+
+  .about-body p + p { margin-top: 1.25rem; }
+
+  .about-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    border-left: 1px solid var(--ground-dark);
+    padding-left: 3rem;
+  }
+
+  .stat-item {}
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  /* ── SERVICES ── */
+  .services {
+    background: var(--ground);
+  }
+
+  .services-intro {
+    max-width: 560px;
+    margin-bottom: 3.5rem;
+  }
+
+  .services-intro p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: rgba(27, 58, 82, 0.1);
+    border: 1px solid rgba(27, 58, 82, 0.1);
+  }
+
+  .service-card {
+    background: var(--white);
+    padding: 2rem 1.75rem;
+    transition: background 0.2s;
+  }
+
+  .service-card:hover { background: var(--ground); }
+
+  .service-icon {
+    width: 36px;
+    height: 2px;
+    background: var(--steel);
+    margin-bottom: 1.25rem;
+  }
+
+  .service-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 0.5rem;
+  }
+
+  .service-naics {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+    margin-bottom: 0.75rem;
+  }
+
+  .service-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* ── CREDENTIALS ── */
+  .credentials {
+    background: var(--navy);
+    color: var(--white);
+  }
+
+  .credentials .section-label { color: var(--steel-light); }
+  .credentials .section-title { color: var(--white); }
+
+  .cred-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .cred-item {
+    border-top: 1px solid rgba(123, 170, 196, 0.25);
+    padding-top: 1.5rem;
+  }
+
+  .cred-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--steel-light);
+    margin-bottom: 0.5rem;
+  }
+
+  .cred-value {
+    font-size: 14px;
+    color: rgba(253, 252, 249, 0.8);
+    line-height: 1.6;
+  }
+
+  /* ── CONTACT ── */
+  .contact {
+    background: var(--white);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .contact-body {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.85;
+  }
+
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-top: 0.5rem;
+  }
+
+  .contact-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .contact-row-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .contact-row-value {
+    font-size: 16px;
+    color: var(--navy);
+    text-decoration: none;
+    font-weight: 400;
+  }
+
+  .contact-row-value:hover { color: var(--steel); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    padding: 2rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(123, 170, 196, 0.15);
+  }
+
+  .footer-wordmark span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(253, 252, 249, 0.5);
+    display: block;
+    line-height: 1.1;
+  }
+
+  .footer-wordmark span.services { color: rgba(123, 170, 196, 0.5); }
+
+  .footer-copy {
+    font-size: 12px;
+    color: rgba(253, 252, 249, 0.3);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    header { padding: 1rem 1.5rem; }
+    nav { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .hero { padding: 0 1.5rem 4rem; }
+    .about, .contact { grid-template-columns: 1fr; gap: 3rem; }
+    .about-stats { border-left: none; padding-left: 0; border-top: 1px solid var(--ground-dark); padding-top: 2rem; flex-direction: row; flex-wrap: wrap; gap: 1.5rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="wordmark">
+    <span>Potomac</span>
+    <span>Vantage</span>
+    <span class="services">Services</span>
+  </div>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#credentials">Credentials</a>
+    <a href="#contact" class="contact-btn">Contact</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Washington, DC — Federal &amp; Municipal Contracting</p>
+    <h1>Program management<br>for government contracts<br>at every level.</h1>
+    <p class="hero-desc">Potomac Vantage Services delivers professional management consulting, environmental consulting and remediation, and facilities support services to federal, DC, and state government agencies — coordinating qualified specialists to meet every requirement.</p>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-left">
+    <p class="section-label">Who we are</p>
+    <h2 class="section-title">Washington-based.<br>Results-focused.</h2>
+    <div class="about-body">
+      <p>Potomac Vantage Services is a DC-based management consulting and facilities support firm serving federal, District, and state government clients. We provide the program oversight, coordination, and accountability that government contracts require — bringing together licensed, qualified specialists for each engagement.</p>
+      <p>Our principal brings a background in contract and grant management, program and project implementation, subcontracting and compliance — skills that translate directly into proposal quality, compliance, and contract performance.</p>
+    </div>
+  </div>
+  <div class="about-stats">
+    <div class="stat-item">
+      <div class="stat-num">DC</div>
+      <div class="stat-label">Resident-owned business</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">10</div>
+      <div class="stat-label">NAICS codes registered</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">CBE</div>
+      <div class="stat-label">DC certified — pending</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">SAM</div>
+      <div class="stat-label">Federal entity registered</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-intro">
+    <p class="section-label">What we do</p>
+    <h2 class="section-title">Service areas</h2>
+    <p>We bid and manage contracts across professional services and facilities support — coordinating credentialed subcontractors while providing direct program management oversight on every engagement.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon"></div>
+      <div class="service-name">Administrative &amp; Program Management</div>
+      <div class="service-naics">NAICS 541611 · 541618</div>
+      <div class="service-desc">General and specialized management consulting for government programs and operations.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"></div>
+      <div class="service-name">Environmental Consulting</div>
+      <div class="service-naics">NAICS 541620</div>
+      <div class="service-desc">Environmental assessment, compliance support, and advisory services.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"></div>
+      <div class="service-name">Remediation Services</div>
+      <div class="service-naics">NAICS 562910</div>
+      <div class="service-desc">Environmental remediation and site cleanup for government and regulated properties.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"></div>
+      <div class="service-name">Waste Management</div>
+      <div class="service-naics">NAICS 562998</div>
+      <div class="service-desc">Miscellaneous waste management and disposal coordination.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"></div>
+      <div class="service-name">Landscaping Services</div>
+      <div class="service-naics">NAICS 561730</div>
+      <div class="service-desc">Grounds maintenance and landscaping for federal and municipal facilities.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"></div>
+      <div class="service-name">Facilities Support &amp; Janitorial</div>
+      <div class="service-naics">NAICS 561210 · 561720</div>
+      <div class="service-desc">Comprehensive facilities management and janitorial services for government properties.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"></div>
+      <div class="service-name">Painting &amp; Wall Covering</div>
+      <div class="service-naics">NAICS 238320</div>
+      <div class="service-desc">Interior and exterior painting and wall covering for government facilities.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"></div>
+      <div class="service-name">Plumbing &amp; HVAC</div>
+      <div class="service-naics">NAICS 238220</div>
+      <div class="service-desc">Mechanical systems installation, maintenance, and repair.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CREDENTIALS -->
+<section class="credentials" id="credentials">
+  <p class="section-label">Registration &amp; certifications</p>
+  <h2 class="section-title">Verified and registered</h2>
+  <div class="cred-grid">
+    <div class="cred-item">
+      <div class="cred-title">Entity Registration</div>
+      <div class="cred-value">SAM.gov registered<br>All Awards</div>
+    </div>
+    <div class="cred-item">
+      <div class="cred-title">DC CBE Status</div>
+      <div class="cred-value">Certified Business Enterprise<br>LBE · SBE · ROB · DZE</div>
+    </div>
+    <div class="cred-item">
+      <div class="cred-title">UEI Number</div>
+      <div class="cred-value">Available upon request</div>
+    </div>
+    <div class="cred-item">
+      <div class="cred-title">Jurisdiction</div>
+      <div class="cred-value">District of Columbia<br>Domestic LLC</div>
+    </div>
+    <div class="cred-item">
+      <div class="cred-title">Primary Market</div>
+      <div class="cred-value">Federal · DC · State &amp; Municipal</div>
+    </div>
+    <div class="cred-item">
+      <div class="cred-title">Subcontracting</div>
+      <div class="cred-value">Partnerships welcome —<br>contact us to qualify</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div>
+    <p class="section-label">Get in touch</p>
+    <h2 class="section-title">Work with us.</h2>
+    <div class="contact-body">
+      <p>Whether you are a contracting officer reviewing our qualifications or a licensed specialist interested in subcontracting, we welcome the conversation.</p>
+    </div>
+  </div>
+  <div class="contact-details">
+    <div class="contact-row">
+      <span class="contact-row-label">Email</span>
+      <a href="mailto:info@potomacvantage.com" class="contact-row-value">info@potomacvantage.com</a>
+    </div>
+    <div class="contact-row">
+      <span class="contact-row-label">Location</span>
+      <span class="contact-row-value">Washington, DC 20020</span>
+    </div>
+    <div class="contact-row">
+      <span class="contact-row-label">Website</span>
+      <span class="contact-row-value">potomacvantage.com</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-wordmark">
+    <span>Potomac</span>
+    <span>Vantage</span>
+    <span class="services">Services</span>
+  </div>
+  <div class="footer-copy">© 2026 Potomac Vantage Services LLC · Washington, DC</div>
+</footer>
+
+</body>
+</html>
